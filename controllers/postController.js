@@ -15,7 +15,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-};
+},
 
   // create a new post
   createPost(req, res) {
@@ -38,8 +38,8 @@ module.exports = {
         console.log(err);
         res.status(500).json(err);
       });
-  },
-};
+  };
+
 
  // Delete a post
  deletePost(req, res) {
