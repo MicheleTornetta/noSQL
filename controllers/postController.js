@@ -1,4 +1,7 @@
+const { Schema, model } = require('mongoose');
 const { Post, User } = require('../models');
+const moment = require('moment');
+
 
 module.exports = {
   getPosts(req, res) {
