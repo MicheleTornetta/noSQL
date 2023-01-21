@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { Post, Response } = require('../models');
+const { User, Post, Response } = require('../models');
 const moment = require('moment');
 
 module.exports = {

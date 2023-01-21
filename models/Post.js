@@ -28,18 +28,13 @@ const postSchema = new Schema(
       required: true,
     },
 
-    Response: {
-      type: String,
-      minLength: 1,
-      maxLength: 280,
-      required: false,
-    }
+    Response: [responseSchema]
+    },
     
     meta: {
       responses: Number,
     },
     
-  },
   
   {
     toJSON: {
@@ -50,7 +45,7 @@ const postSchema = new Schema(
   }
 );
 
-// Create a virtual property `upvoteCount` that gets the amount of comments per user
+// Create a virtual property `responseCount` that gets the amount of comments per user
 postSchema
   .virtual('responseCount')
   // Getter

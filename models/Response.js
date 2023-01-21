@@ -5,6 +5,9 @@ const date = require('moment');
 const responseSchema = new Schema({
   text: String,
   user: String,
+  minLength: 1,
+  maxLength: 280,
+  required: false,
 });
 
 // Initialize the Response model
