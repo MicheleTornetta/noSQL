@@ -3,7 +3,7 @@ const db = require('./config/connection');
 // Require model
 const { index, User } = require('./models');
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4001;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
