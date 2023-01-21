@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const date = require('moment');
 
 // Schema to create Post model
 const postSchema = new Schema(
@@ -7,23 +8,43 @@ const postSchema = new Schema(
       type: Boolean,
       default: false,
     },
+
+    text: {
+      type: String,
+      minLength: 1,
+      maxLength: 280,
+      required: true,
+    },
+
     createdAt: {
       type: Date,
       default: Date.now,
+      get: createdAt 
+        const timestamp = moment().get('date'+, 'hour':'minute');
     },
-    meta: {
-      upvotes: Number,
-      bookmarks: Number,
-    },
-    text: {
+
+    User: {
       type: String,
-      minLength: 15,
-      maxLength: 500,
+      required: true,
     },
+
+    Response: {
+      type: String,
+      minLength: 1,
+      maxLength: 280,
+      required: false,
+    }
+    
+    meta: {
+      responses: Number,
+    },
+    
   },
+  
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
@@ -31,10 +52,10 @@ const postSchema = new Schema(
 
 // Create a virtual property `upvoteCount` that gets the amount of comments per user
 postSchema
-  .virtual('upvoteCount')
+  .virtual('responseCount')
   // Getter
   .get(function () {
-    return this.meta.upvotes;
+    return this.meta.responses;
   });
 
 // Initialize our Post model
