@@ -1,13 +1,18 @@
 const { Schema, model } = require('mongoose');
 const date = require('moment');
+const userSchema = require('./User');
 
 // Schema for what makes up a response
 const responseSchema = new Schema({
-  text: String,
-  user: String,
-  minLength: 1,
-  maxLength: 280,
-  required: false,
+  text: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+  },
+
 });
 
 // Initialize the Response model

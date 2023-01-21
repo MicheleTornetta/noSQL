@@ -3,12 +3,12 @@ const User = require('../models/User');
 const moment = require('moment');
 
 module.exports = {
-  getAllUser(req, res) {
+  getAllUsers(req, res) {
     User.find()
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
-  getSingleUsers(req, res) {
+  getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       .select('-__v')
       .populate('posts')

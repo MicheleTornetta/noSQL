@@ -2,7 +2,6 @@ const { Schema, model } = require('mongoose');
 const { Post, User } = require('../models');
 const moment = require('moment');
 
-
 module.exports = {
   getPosts(req, res) {
     Post.find()
@@ -18,7 +17,6 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-},
 
   // create a new post
   createPost(req, res) {
@@ -41,7 +39,7 @@ module.exports = {
         console.log(err);
         res.status(500).json(err);
       });
-  };
+  },
 
 
  // Delete a post
@@ -54,7 +52,7 @@ module.exports = {
     )
     .then(() => res.json({ message: 'Post and user deleted!' }))
     .catch((err) => res.status(500).json(err));
-};
+},
 
 // Update a post
 updatePost(req, res) {
@@ -69,5 +67,6 @@ updatePost(req, res) {
         : res.json(post)
     )
     .catch((err) => res.status(500).json(err));
-};
+},
 
+};

@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const date = require('moment');
+const responseSchema = require('./Response');
 
 // Schema to create Post model
 const postSchema = new Schema(
@@ -19,8 +20,9 @@ const postSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: createdAt 
-        const timestamp = moment().get('date'+, 'hour':'minute');
+      get: (createdAt) => {
+        return createdAt;
+      }
     },
 
     User: {
@@ -28,13 +30,17 @@ const postSchema = new Schema(
       required: true,
     },
 
-    Response: [responseSchema]
-    },
-    
+    Response: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'response',
+      }
+    ],
+        
     meta: {
       responses: Number,
     },
-    
+  }, 
   
   {
     toJSON: {

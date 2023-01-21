@@ -1,5 +1,5 @@
 const connection = require('../config/connection');
-const { Post, User } = require('../models');
+const { Post, User, Response } = require('../models');
 const getRandomName = require('./data');
 
 console.log(getRandomName());
@@ -13,7 +13,7 @@ connection.once('open', async () => {
   const users = [];
 
   for (let i = 0; i < 20; i++) {
-    const fullName = getRandomName();
+    const userName = getRandomName();
     const first = fullName.split(' ')[0];
     const last = fullName.split(' ')[1];
 
