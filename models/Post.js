@@ -1,15 +1,24 @@
 const { Schema, model } = require('mongoose');
-const date = require('moment');
+const moment = require('moment');
 
 // Schema for what makes up a response
 const responseSchema = new Schema({
+
   text: {
     type: String,
     required: true,
+    maxlength: 280,
   },
   user: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    get: (createdAt) => {
+      return moment(createdAt).format('MMMM Do YYYY, h:mm a');
+    }
   },
 
 });
@@ -22,10 +31,16 @@ const postSchema = new Schema(
       default: false,
     },
 
+    
+    User: {
+      type: String,
+      required: true,
+    },
+
     text: {
       type: String,
-      minLength: 1,
-      maxLength: 280,
+      minlength: 1,
+      maxlength: 280,
       required: true,
     },
 
@@ -33,22 +48,13 @@ const postSchema = new Schema(
       type: Date,
       default: Date.now,
       get: (createdAt) => {
-        return createdAt;
+        return moment(createdAt).format('MMMM Do YYYY, h:mm a');
       }
     },
 
-    User: {
-      type: String,
-      required: true,
-    },
-
-    Response: [
+    responses: [
       responseSchema,
     ],
-        
-    meta: {
-      responses: Number,
-    },
   }, 
   
   {
@@ -65,7 +71,7 @@ postSchema
   .virtual('responseCount')
   // Getter
   .get(function () {
-    return this.meta.responses;
+    return this.responses.length;
   });
 
 // Initialize our Post model
