@@ -8,8 +8,8 @@ const names = [
     'Gregory',
     'Harlan',
     'Isabell',
-    ``,
   ];
+
   const users = [];
   const getNamePart = () => names[Math.floor(Math.random() * names.length)];
   const getRandomName = () => `${getNamePart()} ${getNamePart()}`;

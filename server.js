@@ -1,5 +1,7 @@
 const express = require('express');
 const db = require('./config/connection');
+const routes = require('./routes');
+
 // Require model
 const { index, User } = require('./models');
 
@@ -8,6 +10,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(routes);
 
 // Creates a new user
 app.post('/new-user/:user', (req, res) => {

@@ -1,6 +1,18 @@
 const { Schema, model } = require('mongoose');
 const date = require('moment');
-const responseSchema = require('./Response');
+
+// Schema for what makes up a response
+const responseSchema = new Schema({
+  text: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+  },
+
+});
 
 // Schema to create Post model
 const postSchema = new Schema(
@@ -31,10 +43,7 @@ const postSchema = new Schema(
     },
 
     Response: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'response',
-      }
+      responseSchema,
     ],
         
     meta: {

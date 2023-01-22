@@ -13,14 +13,13 @@ connection.once('open', async () => {
   const users = [];
 
   for (let i = 0; i < 20; i++) {
-    const userName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
+    // const userName = getRandomName();
 
     users.push({
-      first,
-      last,
-      age: Math.floor(Math.random() * (99 - 18 + 1) + 18),
+      userName: 'User' + i, // + userName,
+      email: i + "abc@abc.com",
+      posts: [],
+      friends: [],
     });
   }
 

@@ -1,8 +1,9 @@
-const { Schema, model } = require('mongoose');
-const date = require('moment');
+const { Schema, model } = require("mongoose");
+const date = require("moment");
 
 // Schema to create User model
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     userName: {
       type: String,
       required: true,
@@ -16,41 +17,41 @@ const userSchema = new Schema({
       unique: true,
       match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
     },
-      
+
     posts: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'post',
-        },
+      {
+        type: Schema.Types.ObjectId,
+        ref: "post",
+      },
     ],
-    
+
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'user',
-      }
-    ]
+        ref: "user",
+      },
+    ],
   },
 
-    // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
-    // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
-    { toJSON: {
-        virtuals: true,
-        },
+  // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
+  // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
+  {
+    toJSON: {
+      virtuals: true,
+    },
     id: false,
-    }
+  }
 );
 
-// Create a virtual property `fullName` that gets and sets the user's full name
+// Create a virtual property `friend` that gets and sets the user's full name
 userSchema
-  .virtual('countFriends')
+  .virtual("countFriends")
   // Getter
   .get(function () {
-    return '${this.friends.length}';
+    return this.friends.length;
   });
 
 // Initialize our User model
-const User = model('user', userSchema);
+const User = model("user", userSchema);
 
 module.exports = User;
-  
