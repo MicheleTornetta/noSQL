@@ -20,18 +20,21 @@ module.exports = {
 
   // create a new post
   async createPost(req, res) {
-    const post = await Post.create(req.body);
-    const user = await User.findOneAndUpdate(
-      { _id: req.body.userId },
-      { $addToSet: { posts: post._id } },
-      { new: true }
-    );
-    
+    const user = await User.findById(req.body.userId);
+
     if (!user) {
       res
         .status(404)
-        .json({ message: "Post created, but found no user with that ID" });
+        .json({ message: "No user with that ID" });
     } else {
+      const post = await Post.create({
+        text: req.body.text,
+        User: user.userName
+      });
+      
+      user.posts.push(post);
+      user.save();
+      
       res.json(post);
     }
   },

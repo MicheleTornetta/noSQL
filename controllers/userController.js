@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const User = require("../models/User");
 const moment = require("moment");
+const { Post } = require("../models");
 
 module.exports = {
   getAllUsers(req, res) {
@@ -45,19 +46,23 @@ module.exports = {
 
   //Delete a friend
 
-  async deletefriend(req, res) {
-    const friendGetterUsername = req.body.friendGetterUsername;
-    const friendUsername = req.body.friendUsername;
+  async deleteFriend(req, res) {
+    const userId = req.body.userId;
+    const friendId = req.body.friendId;
 
-    const friend = await User.findOne({ userName: friendUsername });
-    const user = await User.findOne({ userName: friendGetterUsername });
+    const user = await User.findById( userId );
 
     for (let i = 0; i < user.friends.length; i++) {
-      if (user.friends[i] === friend) {
+      if (user.friends[i]._id.equals(friendId)) {
         user.friends.splice(i, 1);
       }
     }
+
     user.save();
+
+    res.json(
+      user
+    );
   },
 
   // Delete a user
@@ -68,7 +73,7 @@ module.exports = {
       if (!deletedUser) {
         res.status(404).json({ message: "No user with that ID" });
       } else {
-        // User.deleteMany({ _id: { $in: deletedUser.users } });
+        await Post.deleteMany({ User: deletedUser.userName});
         res.json({ message: "User deleted!" });
       }
     } catch (err) {
