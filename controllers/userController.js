@@ -29,18 +29,18 @@ module.exports = {
   //Add a Friend
 
   async addFriend(req, res) {
-    const friendGetterUsername = req.body.friendGetterUsername;
-    const friendUsername = req.body.friendUsername;
+    const userId = req.body.userId;
+    const friendId = req.body.friendId;
 
-    const friend = await User.findOne({ userName: friendUsername });
-    const user = await User.findOne({ userName: friendGetterUsername });
+    const friend = await User.findById( friendId );
+    const user = await User.findById( userId );
 
     user.friends.push(friend);
     user.save();
 
-    res.json({
-      status: "Success",
-    });
+    res.json(
+      user
+    );
   },
 
   //Delete a friend

@@ -19,26 +19,21 @@ module.exports = {
   },
 
   // create a new post
-  createPost(req, res) {
-    Post.create(req.body)
-      .then((post) => {
-        return User.findOneAndUpdate(
-          { _id: req.body.userId },
-          { $addToSet: { posts: post._id } },
-          { new: true }
-        );
-      })
-      .then((user) =>
-        !user
-          ? res
-              .status(404)
-              .json({ message: "Post created, but found no user with that ID" })
-          : res.json("Created the post!")
-      )
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+  async createPost(req, res) {
+    const post = await Post.create(req.body);
+    const user = await User.findOneAndUpdate(
+      { _id: req.body.userId },
+      { $addToSet: { posts: post._id } },
+      { new: true }
+    );
+    
+    if (!user) {
+      res
+        .status(404)
+        .json({ message: "Post created, but found no user with that ID" });
+    } else {
+      res.json(post);
+    }
   },
 
   // Delete a post
@@ -47,9 +42,10 @@ module.exports = {
       .then((post) =>
         !post
           ? res.status(404).json({ message: "No post with that ID" })
-          : User.deleteMany({ _id: { $in: post.users } })
+          : // : User.deleteMany({ _id: { $in: post.users } })
+            undefined
       )
-      .then(() => res.json({ message: "Post and user deleted!" }))
+      .then(() => res.json({ message: "Post deleted!" }))
       .catch((err) => res.status(500).json(err));
   },
 
