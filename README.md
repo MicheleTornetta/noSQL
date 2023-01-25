@@ -14,10 +14,10 @@
 ![Application Image](http)
 
 ## Installation Instructions
-kkk
+To install the application, you would download the readme-generator repository (https://github.com/MicheleTornetta/noSQL).  From there you would navigate to the directory in the command terminal.  Once there the user will need to type in npm i to download the dependencies. 
 
 ## Instructions
-dddd
+Once dependecies are dowloaded, open the terminal and type in node server and be sure MongoDB is open. The user should then open insomnia to search for one user, all users, add, change and delete users. Also, the user can look at all posts/thoughts, one post/thought0, add new posts/thoughts, change, delete or update posts/thoughts. In addition, using insomnia, the user can add or delete reactions and friends.  All changes will be saved in the database.
 
 ## Usage Video
 An example of how it works can be viewed here: 
