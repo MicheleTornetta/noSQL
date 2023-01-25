@@ -11,7 +11,10 @@
 - [Questions](#questions)
 
 ## Application Image 
-![Application Image](http)
+![Application Image](./public/assets/images/appimg1.png)
+![Application Image](./public/assets/images/appimg2.png)
+![Application Image](./public/assets/images/appimg3.png)
+![Application Image](./public/assets/images/appimg4.png)
 
 ## Installation Instructions
 To install the application, you would download the readme-generator repository (https://github.com/MicheleTornetta/noSQL).  From there you would navigate to the directory in the command terminal.  Once there the user will need to type in npm i to download the dependencies. 
@@ -21,7 +24,7 @@ Once dependecies are dowloaded, open the terminal and type in node server and be
 
 ## Usage Video
 An example of how it works can be viewed here: 
-![Application Gif](http://www.youtube.com)
+[Watch the video](https://www.youtube.com/watch?v=WPV9oNd1t20)
 
 ## License 
 A short, permissive software license. Basically, you can do whatever you want as long as you include the original copyright and license notice in any copy of the software/source.  There are many variations of this license in use.
