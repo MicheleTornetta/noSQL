@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const User = require("../models/User");
 const moment = require("moment");
-const { Post } = require("../models");
+const { Thoughts } = require("../models");
 
 module.exports = {
   getAllUsers(req, res) {
@@ -12,7 +12,7 @@ module.exports = {
   },
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .populate("posts")
+      .populate("thoughts")
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No user with that ID" })
@@ -73,7 +73,7 @@ module.exports = {
       if (!deletedUser) {
         res.status(404).json({ message: "No user with that ID" });
       } else {
-        await Post.deleteMany({ User: deletedUser.userName});
+        await Thoughts.deleteMany({ User: deletedUser.userName});
         res.json({ message: "User deleted!" });
       }
     } catch (err) {

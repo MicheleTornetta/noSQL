@@ -1,25 +1,25 @@
 const { Schema, model } = require("mongoose");
-const { Post, User } = require("../models");
+const { Thoughts, User } = require("../models");
 const moment = require("moment");
 
 module.exports = {
-  getPosts(req, res) {
-    Post.find()
-      .then((posts) => res.json(posts))
+  getThoughts(req, res) {
+    Thoughts.find()
+      .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
-  getSinglePost(req, res) {
-    Post.findById(req.params.postId)
-      .then((post) =>
-        !post
-          ? res.status(404).json({ message: "No post with that ID" })
-          : res.json(post)
+  getSingleThoughts(req, res) {
+    Thoughts.findById(req.params.thoughtsId)
+      .then((thoughts) =>
+        !thoughts
+          ? res.status(404).json({ message: "No thoughts with that ID" })
+          : res.json(thoughts)
       )
       .catch((err) => res.status(500).json(err));
   },
 
-  // create a new post
-  async createPost(req, res) {
+  // create a new thoughts
+  async createThoughts(req, res) {
     const user = await User.findById(req.body.userId);
 
     if (!user) {
@@ -27,42 +27,42 @@ module.exports = {
         .status(404)
         .json({ message: "No user with that ID" });
     } else {
-      const post = await Post.create({
+      const thoughts = await Thoughts.create({
         text: req.body.text,
         User: user.userName
       });
       
-      user.posts.push(post);
+      user.thoughts.push(thoughts);
       user.save();
       
-      res.json(post);
+      res.json(thoughts);
     }
   },
 
-  // Delete a post
-  deletePost(req, res) {
-    Post.findOneAndDelete({ _id: req.params.postId })
-      .then((post) =>
-        !post
-          ? res.status(404).json({ message: "No post with that ID" })
-          : // : User.deleteMany({ _id: { $in: post.users } })
+  // Delete a thoughts
+  deleteThoughts(req, res) {
+    Thoughts.findOneAndDelete({ _id: req.params.thoughtsId })
+      .then((thoughts) =>
+        !thoughts
+          ? res.status(404).json({ message: "No thoughts with that ID" })
+          : // : User.deleteMany({ _id: { $in: thoughts.users } })
             undefined
       )
-      .then(() => res.json({ message: "Post deleted!" }))
+      .then(() => res.json({ message: "Thoughts deleted!" }))
       .catch((err) => res.status(500).json(err));
   },
 
-  // Update a post
-  updatePost(req, res) {
-    Post.findOneAndUpdate(
-      { _id: req.params.postId },
+  // Update a thought
+  updateThoughts(req, res) {
+    Thoughts.findOneAndUpdate(
+      { _id: req.params.thoughtsId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((post) =>
-        !post
-          ? res.status(404).json({ message: "No post with this id!" })
-          : res.json(post)
+      .then((thoughts) =>
+        !thoughts
+          ? res.status(404).json({ message: "No thoughts with this id!" })
+          : res.json(thoughts)
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -70,37 +70,37 @@ module.exports = {
   // create a reaction
 
   async createReaction(req, res) {
-    const post = await Post.findById(req.body.postId).exec();
+    const thoughts = await Thoughts.findById(req.body.thoughtsId).exec();
 
-    if (!post) {
-      res.status(400).json({ message: "No post with this id!" });
+    if (!thoughts) {
+      res.status(400).json({ message: "No thoughts with this id!" });
       return;
     }
 
-    post.responses.push({
+    thoughts.responses.push({
       text: req.body.text,
       user: req.body.user,
       createdAt: new Date(),
     });
 
-    post.save();
+    thoughts.save();
 
-    res.json(post.responses[post.responses.length - 1]);
+    res.json(thoughts.responses[thoughts.responses.length - 1]);
   },
 
   // delete a reaction
 
   async deleteReaction(req, res) {
-    const post = await Post.findById(req.body.postId);
+    const thoughts = await Thoughts.findById(req.body.thoughtsId);
 
-    for (let i = 0; i < post.responses.length; i++) {
-      if (post.responses[i]._id.equals(req.body.responseId)) {
-        post.responses.splice(i, 1);
+    for (let i = 0; i < thoughts.responses.length; i++) {
+      if (thoughts.responses[i]._id.equals(req.body.responseId)) {
+        thoughts.responses.splice(i, 1);
       }
     }
 
-    post.save();
+    thoughts.save();
 
-    res.json(post);
+    res.json(thoughts);
   },
 };

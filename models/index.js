@@ -1,6 +1,6 @@
 const { Schema } = require("mongoose");
 
 const User = require('./User');
-const Post = require('./Posts');
+const Thoughts = require('./Thoughts');
 
-module.exports = { User, Post, Response };
+module.exports = { User, Thoughts, Response };

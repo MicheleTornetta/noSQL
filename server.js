@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(routes);
 
 // Creates a new user
-app.post('/new-user/:user', (req, res) => {
+app.thoughts('/new-user/:user', (req, res) => {
   const newUser = new User({ name: req.params.user });
   newUser.save();
   if (newUser) {

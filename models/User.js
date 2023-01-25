@@ -18,10 +18,10 @@ const userSchema = new Schema(
       match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
     },
 
-    posts: [
+    thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: "post",
+        ref: "thoughts",
       },
     ],
 

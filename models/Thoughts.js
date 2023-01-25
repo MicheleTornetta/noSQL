@@ -23,8 +23,8 @@ const responseSchema = new Schema({
 
 });
 
-// Schema to create Post model
-const postSchema = new Schema(
+// Schema to create thoughts model
+const thoughtsSchema = new Schema(
   {
     published: {
       type: Boolean,
@@ -67,14 +67,14 @@ const postSchema = new Schema(
 );
 
 // Create a virtual property `responseCount` that gets the amount of comments per user
-postSchema
+thoughtsSchema
   .virtual('responseCount')
   // Getter
   .get(function () {
     return this.responses.length;
   });
 
-// Initialize our Post model
-const Post = model('post', postSchema);
+// Initialize our thoughts model
+const Thoughts = model('thoughts', thoughtsSchema);
 
-module.exports = Post;
+module.exports = Thoughts;
