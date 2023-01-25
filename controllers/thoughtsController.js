@@ -5,15 +5,15 @@ const moment = require("moment");
 module.exports = {
   getThoughts(req, res) {
     Thoughts.find()
-      .then((thoughts) => res.json(thoughts))
+      .then((thought) => res.json(thought))
       .catch((err) => res.status(500).json(err));
   },
   getSingleThoughts(req, res) {
     Thoughts.findById(req.params.thoughtsId)
-      .then((thoughts) =>
-        !thoughts
+      .then((thought) =>
+        !thought
           ? res.status(404).json({ message: "No thoughts with that ID" })
-          : res.json(thoughts)
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -27,23 +27,23 @@ module.exports = {
         .status(404)
         .json({ message: "No user with that ID" });
     } else {
-      const thoughts = await Thoughts.create({
+      const thought = await Thoughts.create({
         text: req.body.text,
         User: user.userName
       });
       
-      user.thoughts.push(thoughts);
+      user.thoughts.push(thought);
       user.save();
       
-      res.json(thoughts);
+      res.json(thought);
     }
   },
 
   // Delete a thoughts
   deleteThoughts(req, res) {
     Thoughts.findOneAndDelete({ _id: req.params.thoughtsId })
-      .then((thoughts) =>
-        !thoughts
+      .then((thought) =>
+        !thought
           ? res.status(404).json({ message: "No thoughts with that ID" })
           : // : User.deleteMany({ _id: { $in: thoughts.users } })
             undefined
@@ -59,10 +59,10 @@ module.exports = {
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((thoughts) =>
-        !thoughts
+      .then((thought) =>
+        !thought
           ? res.status(404).json({ message: "No thoughts with this id!" })
-          : res.json(thoughts)
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -70,37 +70,38 @@ module.exports = {
   // create a reaction
 
   async createReaction(req, res) {
-    const thoughts = await Thoughts.findById(req.body.thoughtsId).exec();
+    const thought = await Thoughts.findById(req.body.thoughtsId).exec();
 
-    if (!thoughts) {
+    if (!thought) {
       res.status(400).json({ message: "No thoughts with this id!" });
       return;
     }
 
-    thoughts.responses.push({
+    thought.responses.push({
       text: req.body.text,
       user: req.body.user,
       createdAt: new Date(),
     });
 
-    thoughts.save();
+    thought.save();
 
-    res.json(thoughts.responses[thoughts.responses.length - 1]);
+    res.json(thought.responses[thought.responses.length - 1]);
   },
 
   // delete a reaction
 
   async deleteReaction(req, res) {
-    const thoughts = await Thoughts.findById(req.body.thoughtsId);
+    const thought = await Thoughts.findById(req.body.thoughtsId);
 
-    for (let i = 0; i < thoughts.responses.length; i++) {
-      if (thoughts.responses[i]._id.equals(req.body.responseId)) {
-        thoughts.responses.splice(i, 1);
+    for (let i = 0; i < thought.responses.length; i++) {
+       
+      if (thought.responses[i]._id.equals(req.body.responseId)) {
+        thought.responses.splice(i, 1);
       }
     }
 
-    thoughts.save();
+    thought.save();
 
-    res.json(thoughts);
+    res.json(thought);
   },
 };
